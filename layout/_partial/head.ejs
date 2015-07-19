@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <%
+  var title = page.title;
+
+  if (is_archive()){
+    title = 'Archives';
+
+    if (is_month()){
+      title += ': ' + page.year + '/' + page.month;
+    } else if (is_year()){
+      title += ': ' + page.year;
+    }
+  } else if (is_category()){
+    title = 'Category: ' + page.category;
+  } else if (is_tag()){
+    title = 'Tag: ' + page.tag;
+  }
+
+  %>
+  <title><% if (title){ %><%= title %> | <% } %><%= config.title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <%- open_graph({twitter_id: theme.twitter, google_plus: theme.google_plus, fb_admins: theme.fb_admins, fb_app_id: theme.fb_app_id}) %>
+  <% if (theme.rss){ %>
+    <link rel="alternative" href="<%- theme.rss %>" title="<%= config.title %>" type="application/atom+xml">
+  <% } %>
+  <% if (theme.favicon){ %>
+    <link rel="icon" href="<%- theme.favicon %>">
+  <% } %>
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <%- css('css/style') %>
+  <%- css('css/bootstrap.css') %>
+  <%- css('css/custom-style') %>
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <%- partial('google-analytics') %>
+  <script>
+		
+	function generateQuiz(questions, title)
+	{
+		result = "";
+
+		if (questions.length) 
+		{
+
+		  result += "<div class=\"quiz\">";
+
+			for (i=0; i != questions.length; ++i)
+			{
+				var question = questions[i];
+
+				result += "<h3 class=\"panel-title\">"+(i+1)+". "+ question.title +"</h3>";
+
+				for (j=0; j != question.answers.length; ++j)
+				{
+					 var answer = question.answers[j];
+					 if (answer.isAnswer)
+					 {
+						var CLASS = "alert alert-success" 
+						var role="alert";
+					 }
+					 else
+					 {
+						CLASS = "alert alert-danger";
+						role="alert";
+					 }
+					 
+					result += "<div style=\"padding:3px\"><label><input onClick=\"showAnswer('answer_"+i+"', '"+answer.hint+"', '"+CLASS+"', '"+role+"')\" style=\"margin-right:5px\" type=\"radio\" name=\""+i+"\">"+answer.title+"</label></div>";
+				}
+				
+				result += "<div id=\"answer_"+i+"\" style=\"margin-top:10px\"></div>";
+			}
+
+			result += "</div>"
+		}
+		return result;
+	}
+
+  var deparam = function (querystring) {
+    // remove any preceding url and split
+    querystring = querystring.substring(querystring.indexOf('?')+1).split('&');
+    var params = {}, pair, d = decodeURIComponent;
+    // march and parse
+    for (var i = querystring.length - 1; i >= 0; i--) {
+      pair = querystring[i].split('=');
+      params[d(pair[0])] = d(pair[1]);
+    }
+
+    return params;
+  };//--  fn  deparam
+	
+	function showAnswer(id, string, CLASS, role)
+	{
+		document.getElementById(id).innerHTML = string;
+		document.getElementById(id).className = CLASS;
+		document.getElementById(id).role = role;
+	}
+
+  var courses = <%- JSON.stringify(config.courses) %>;
+	
+  </script>
+</head>

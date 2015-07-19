@@ -1,0 +1,50 @@
+<tr>
+  <td class="col-xs-2 course--status">
+    <% if (typeof lesson != "undefined") { %>
+      <div class="img-circle img-responsive course--lesson-number">
+        <span><%=lesson%></span>
+      </div>
+    <% } else { %>
+    <img src="/images/tags/LessonMarker_Empty.png" alt="" class="course--status-icon img-circle img-responsive">
+    <% } %>
+  </td>
+  <td class="col-xs-9">
+    <article id="<%= post.layout %>-<%= post.slug %>" class="article-type-<%= post.layout %>" itemscope itemprop="blogPost">
+      <div>
+        <% if (post.title){ %>
+          <header>
+            <h4>
+              <% if (typeof lesson != "undefined" && !signup) { %>
+                Lesson <%=lesson%>: 
+              <% } %>
+              <%=post.title%>
+            </h4>
+          </header>
+        <% } %>
+        <% if (post.subtitle) { %>
+          <p><%=post.subtitle%></p>
+        <% } %>
+      </div>
+    </article>
+  </td>
+  <td class="col-xs-1 course--link">
+  <% 
+  if (typeof post.lessonType != "undefined")
+  {
+      if (post.lessonType == "physical")
+      {
+  %>
+    <a target="_new" class="btn btn-info" href="https://docs.google.com/a/coolblue.nl/forms/d/11lDJZs8jmXY42MGyFac6jABVxOkMAX2AkPcXF3TzKt4/viewform?entry.581567275=<%- post.startDate %>&entry.731533691=<%- post.title %>" role="button">Sign up</a>
+	<%
+      }
+  }
+  else if (!signup)
+  {
+    var lastLessonUrl = lastLesson ? "?lastLesson=true" : ""
+  %>
+    <a class="lesson-item--link" href="<%- config.root %><%- post.path %><%=lastLessonUrl%>"></a>
+  <%
+  }
+  %>
+  </td>
+</tr>

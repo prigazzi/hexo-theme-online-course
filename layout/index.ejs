@@ -1,0 +1,12 @@
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 course-list">
+			<h2>Courses<span class="coolblue-dot">.</span></h2>
+			<%	for (var key in config.courses)
+				{ 
+					var course = config.courses[key]; %>
+				<%- partial("_partial/course-item", {key: key, course: course}) %>
+			<% } %>
+		</div>
+	</div>
+</div>
