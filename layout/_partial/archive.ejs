@@ -1,5 +1,5 @@
 <% if (pagination == 2){ %>
-  <% var posts = get_posts({count: 100, order: "asc", query: {categories: page.category}}) %>
+  <% var posts = site.categories.findOne({name: page.category}).posts.sort("date", -1).limit(100) %>
   <% posts.each(function(post, index){ %>
     <%- partial('lesson-item', {post: post, index: true, lesson: index + 1, signup: signup, lastLesson: index + 1 === posts.length }) %>
   <% }) %>
