@@ -1,9 +1,9 @@
 <% 
-	for (var key in config.courses) 
+	for (var key in site.data.courses.courses) 
 	{
 		if (key == page.category) 
 		{
-			var course = config.courses[key]
+			var course = site.data.courses.courses[key]
 			break
  		}
 	}
